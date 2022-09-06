@@ -1,0 +1,226 @@
+getgenv().autoTrainLevel1 = false;
+getgenv().autoTrainLevel2 = false;
+getgenv().autoTrainLevel3 = false;
+getgenv().autoTrainLevel4 = false;
+getgenv().meditationEnter = false;
+getgenv().autoFlightArena = false;
+
+
+
+
+function autoFlightTap()
+    spawn(function ()
+        while autoFlightArena == true do
+        game:GetService("ReplicatedStorage").Assets.Network.FightClick:FireServer()
+        wait(0.2)    
+        end
+    end)
+end
+
+function eggHatch(eggType)
+
+    local args = {
+        [1] = eggType,
+        [2] = false
+    }
+    
+    game:GetService("ReplicatedStorage").Assets.Network.HatchEgg:InvokeServer(unpack(args))
+    
+    end
+
+function teleportTO(placeCFrame)
+    local plyr = game.Players.LocalPlayer;
+    if plyr.Character then
+     plyr.Character.HumanoidRootPart.CFrame = placeCFrame;
+
+    end
+        
+end
+
+
+
+
+local library = loadstring(Game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
+
+local w = library:NewWindow("Toasty's GUI") 
+
+local b = w:NewSection("Power Train") 
+local c = w:NewSection("Kills Mediation") 
+local d = w:NewSection("Eggs") 
+local e = w:NewSection("Arena")
+
+-- Auto Train
+
+-- Auto train level 1
+b:CreateToggle("Level 1",function(bool)
+    getgenv().autoTrainLevel1 = bool
+end)
+
+coroutine.wrap(function()
+    while task.wait() do
+        pcall(function()
+            while getgenv().autoTrainLevel1 == true do task.wait()
+                local args = {[1] = "x1"}
+                game:GetService("ReplicatedStorage").Assets.Network.Train:FireServer(unpack(args))
+            end
+        end)
+    end
+end)()
+
+-- auto train level 2 
+b:CreateToggle("Level 2",function(bool)
+    getgenv().autoTrainLevel2 = bool
+end)
+
+coroutine.wrap(function()
+    while task.wait() do
+        pcall(function()
+            while getgenv().autoTrainLevel2 == true do task.wait()
+                local args = {[1] = "x2"}
+                game:GetService("ReplicatedStorage").Assets.Network.Train:FireServer(unpack(args))
+            end
+        end)
+    end
+end)()
+
+-- auto train level 3 
+b:CreateToggle("Level 3",function(bool)
+    getgenv().autoTrainLevel3 = bool
+end)
+
+coroutine.wrap(function()
+    while task.wait() do
+        pcall(function()
+            while getgenv().autoTrainLevel3 == true do task.wait()
+                local args = {[1] = "x3"}
+                game:GetService("ReplicatedStorage").Assets.Network.Train:FireServer(unpack(args))
+            end
+        end)
+    end
+end)()
+
+-- auto train level 4 
+b:CreateToggle("Level 4",function(bool)
+    getgenv().autoTrainLevel4 = bool
+end)
+
+coroutine.wrap(function()
+    while task.wait() do
+        pcall(function()
+            while getgenv().autoTrainLevel4 == true do task.wait()
+                local args = {[1] = "x4"}
+                game:GetService("ReplicatedStorage").Assets.Network.Train:FireServer(unpack(args))
+            end
+        end)
+    end
+end)()
+
+-- Kills
+c:CreateToggle("Mediation Level 1",function(bool)
+    getgenv().meditationEnter = bool
+    startMediation()
+    MediatonLevel1()
+end)
+
+function startMediation()
+    spawn(function ()
+        if meditationEnter == true then
+            wait(1)
+            game:GetService("ReplicatedStorage").Assets.Network.MeditationExit:FireServer()
+            wait(2)
+        end
+    end)
+end
+
+function MediatonLevel1()
+    spawn(function ()
+        if meditationEnter == true then
+            teleportTO(game:GetService("Workspace")["__WORLD"].Meditation.x1.Touch.CFrame)
+            wait(2)
+            local args = {
+                [1] = "x1"
+            }
+            game:GetService("ReplicatedStorage").Assets.Network.MeditationEnter:FireServer(unpack(args))
+        end
+    end)
+end
+
+
+c:CreateToggle("Mediation Level 2",function(bool)
+    getgenv().meditationEnter = bool
+    startMediation()
+    MediatonLevel2()
+end)
+
+function MediatonLevel2()
+    spawn(function ()
+        if meditationEnter == true then
+            teleportTO(game:GetService("Workspace")["__WORLD"].Meditation.x2.Touch.CFrame)
+            wait(2)
+            local args = {
+                [1] = "x2"
+            }
+            game:GetService("ReplicatedStorage").Assets.Network.MeditationEnter:FireServer(unpack(args))
+        end
+    end)
+end
+
+c:CreateToggle("Mediation Level 3",function(bool)
+    getgenv().meditationEnter = bool
+    startMediation()
+    MediatonLevel3()
+end)
+
+function MediatonLevel3()
+    spawn(function ()
+        if meditationEnter == true then
+            teleportTO(game:GetService("Workspace")["__WORLD"].Meditation.x3.Touch.CFrame)
+            wait(2)
+            local args = {
+                [1] = "x3"
+            }
+            game:GetService("ReplicatedStorage").Assets.Network.MeditationEnter:FireServer(unpack(args))
+        end
+    end)
+end
+
+c:CreateToggle("Mediation Level 4",function(bool)
+    getgenv().meditationEnter = bool
+    startMediation()
+    MediatonLevel4()
+end)
+
+function MediatonLevel4()
+    spawn(function ()
+        if meditationEnter == true then
+            teleportTO(game:GetService("Workspace")["__WORLD"].Meditation.x4.Touch.CFrame)
+            wait(2)
+            local args = {
+                [1] = "x4"
+            }
+            game:GetService("ReplicatedStorage").Assets.Network.MeditationEnter:FireServer(unpack(args))
+        end
+    end)
+end
+
+--eggs
+local eggSelected;
+d:CreateDropdown("Egg Type", {"EasyEgg", "ForestEgg", "IceEgg","SandEgg","CyberEgg","PixelEggg","HackerEgg"}, 2, function(value)
+    eggSelected = value;
+    end)
+
+d:CreateButton("Buy",function ()
+    if eggSelected then
+        eggHatch(eggSelected)
+    end
+end)
+
+
+--Arena
+
+e:CreateToggle("Auto Flight",function(bool)
+    getgenv().autoFlightArena = bool
+    autoFlightTap()
+end)
+
+
