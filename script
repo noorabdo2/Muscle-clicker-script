@@ -6,25 +6,25 @@ getgenv().meditationEnter = false;
 getgenv().autoFlightArena = false;
 getgenv().autoCollectBoost = false;
 
-local playerHead = game.Players.LocalPlayer.Character.Head -- the player is head part!
 
 function autoCollect()
     spawn(function()
-    while getgenv().autoCollectBoost == true do
-          wait(1)
+		local playerHead = game.Players.LocalPlayer.Character.Head -- the player is head part!
+		while wait()do
+			if not getgenv().autoCollectBoost then break end
             for i, v in pairs(game:GetService("Workspace").Arena.TemporaryBoosts:GetDescendants()) do
-                if v.Name == "TouchInterest" and v.Parent then
+               if v.Name == "TouchInterest" and v.Parent then
                 -- we will fire the touch event here
-
                 firetouchinterest(playerHead, v.Parent, 0)
-                wait(0.1)
-                firetouchinterest(playerHead, v.Parent, 1)
-                if not getgenv().autoCollectBoost then break end
-            end
+                wait(0.2)
+                
+				break;
+                end
+               end
         end
-    end
     end)
-end 
+end
+
 
 
 function autoFlightTap()
